@@ -238,6 +238,19 @@ class RidehailCoordinator:
         try:
             edge_list = traci.edge.getIDList()
             usable_edges = [e for e in edge_list if not e.startswith(':')]
+
+            # 仅保留允许客运车辆通行的道路，避免后续生成的路线无效
+            filtered_edges = []
+            for edge_id in usable_edges:
+                try:
+                    allowed = traci.edge.getAllowed(edge_id)
+                    # getAllowed 可能返回空列表，表示所有车辆均可通行
+                    if not allowed or "passenger" in allowed or "taxi" in allowed:
+                        filtered_edges.append(edge_id)
+                except traci.TraCIException:
+                    continue
+
+            usable_edges = filtered_edges if filtered_edges else usable_edges
             if not usable_edges:
                 print('未找到可用于投放网约车的道路边')
                 return
@@ -266,6 +279,18 @@ class RidehailCoordinator:
 
         if not edges:
             edges = [e for e in traci.edge.getIDList() if not e.startswith(':')]
+
+        if edges:
+            filtered_edges = []
+            for edge_id in edges:
+                try:
+                    allowed = traci.edge.getAllowed(edge_id)
+                    if not allowed or "passenger" in allowed or "taxi" in allowed:
+                        filtered_edges.append(edge_id)
+                except traci.TraCIException:
+                    continue
+            if filtered_edges:
+                edges = filtered_edges
         if not edges:
             return 0
 
@@ -389,8 +414,24 @@ class RidehailCoordinator:
                 if pickup_edges:
                     sorted_edges = sorted(pickup_edges.items(), key=lambda x: x[1], reverse=True)
                     top_edges = sorted_edges[:min(100, len(sorted_edges))]
-                    self.spawn_edges = [e[0] for e in top_edges]
-                    self.spawn_weights = [float(e[1]) for e in top_edges]
+
+                    filtered_spawn_edges = []
+                    filtered_weights = []
+                    for edge_id, weight in top_edges:
+                        try:
+                            allowed = traci.edge.getAllowed(edge_id)
+                            if not allowed or "passenger" in allowed or "taxi" in allowed:
+                                filtered_spawn_edges.append(edge_id)
+                                filtered_weights.append(float(weight))
+                        except traci.TraCIException:
+                            continue
+
+                    if filtered_spawn_edges:
+                        self.spawn_edges = filtered_spawn_edges
+                        self.spawn_weights = filtered_weights
+                    else:
+                        self.spawn_edges = [e[0] for e in top_edges]
+                        self.spawn_weights = [float(e[1]) for e in top_edges]
 
                 print(f"✓ 加载了 {len(self.all_orders_by_time)} 个网约车订单")
                 print(f"  最早订单时间: {self.all_orders_by_time[0].pickup_time:.1f}")
