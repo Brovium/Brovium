@@ -1,65 +1,43 @@
-# AMoD
----
-# **SUMO ride-hailling parking model simulation**
-This repository implements a comprehensive traffic simulation system focusing on roadside parking behavior and emission analysis in Beijing.
- The system integrates SUMO with advanced optimization algorithms for fleet management and ride-hailing dispatch.
+# Hi, I'm Brovium 👋
 
----
-- **project**
-  - **config**
-  - **paths**
-  - **simulation_setup**
-  - **od_demand_generator**
-  - **fleet_optimizer**
-  - **interfaces**
-  - **dispatch_manager**
-  - **ridehail_coordinator**
-  - **parking_manager**
-  - **detector**
-  - **emissions**
+I'm a  student at **The University of Hong Kong**
 
-
+My research sits at the intersection of **intelligent transportation systems** and **artificial intelligence** — I am most interested in problems where many agents act locally within a physically coupled network, yet must be held responsible for the long-term cost of the whole system.
 
 ---
 
+## Research Interests
 
-   # Main Modules Overview
+- **Multi-agent reinforcement learning** for cooperative traffic control (CAVs + traffic signals)
+- **Spatio-temporal modelling** and large-scale traffic simulation (SUMO, CARLA)
+- **Physics-informed & structure-aware deep learning** — embedding physical laws and system structure into learning rather than building larger black boxes
+- **Ride-hailing dispatch** and autonomous mobility-on-demand (AMoD) optimization
 
-## config
-Defines simulation parameters including area boundaries, vehicle densities, parking ratios, and emission factors. Supports both local and city-wide simulation modes.
+---
 
-## paths
-Manages file paths, detects SUMO installation locations, and organizes output directories. Ensures cross-platform compatibility for SUMO tools.
+## Selected Work
 
-## simulation_setup
-After downloading the road network data based on OSM, convert it into a SUMO network and generate vehicle routes. Use randomTrips.py to generate initial trip data.
+- **Role-differentiated joint control of CAVs and traffic signals** — multi-agent RL with graph attention and LSTM. *Under major revision at IEEE T-ITS.*
+- **WATCH** — a weather-adaptive hierarchical MARL framework with a Transformer encoder for robust CAV–signal control. *Submitted to Transportation Research Part B.*
+- **Air–ground cooperative autonomous mobility** — multi-UAV BEV perception, spatio-temporal graph attention for demand-hotspot detection, and a vision-language model as the dispatch reasoning layer, validated in CARLA.
+- **City-scale ride-hailing & parking simulation** — a Beijing-scale SUMO platform coupling fleet sizing, real-time dispatch, roadside parking, and HBEFA4 emission modelling.
 
-## od_demand_generator
-Implements Origin-Destination (OD) matrix-based demand generation, incorporating Beijing-specific travel patterns. Creates zone-based traffic analysis areas and generates realistic trip distributions.
+---
 
-## fleet_optimizer
-Optimizes vehicle shareability based on MIT research. Constructs shareability networks and solves minimum path cover problems to determine the optimal fleet size.
+## Technical Stack
 
-## interfaces
-Provides modular interfaces for demand generation, fleet optimization, dispatch optimization, and parking decisions. Implements algorithms based on the "Nature" paper for fleet optimization and real-time dispatching.
+**Languages & ML:** Python · PyTorch · TensorFlow
+**Simulation:** SUMO · CARLA
+**Methods:** Multi-agent RL · Graph neural networks · Spatio-temporal neural networks · Transfer learning · Deep clustering · XGBoost
+**Data & Systems:** Hadoop · SQL · Linux · Docker
 
-## dispatch_manager
-A comprehensive ride-hailing dispatch system with driver-order matching algorithms. Calculates distances using the OSMNX formula, manages driver preferences, and maintains rejection lists.
+---
 
-## ridehail_coordinator
-Coordinates order generation, vehicle dispatch, and parking decisions post-service. Integrates with the main simulation loop for real-time ride-hailing operations.
+## Get in Touch
 
-## parking_manager
-Estimates roadside parking density based on road types and urban characteristics. Implements parking spot distribution algorithms tailored for different road categories.
+- 📧 jiangziyang@connect.hku.hk
+- 🏛️ Smart Mobility Lab, Department of Civil Engineering, HKU
 
-## detector
-Performs real-time detection and management of parking events during simulation. Handles parking position validation, traffic impact analysis, and emission calculations.
+---
 
-## emissions
-Calculates vehicle emissions based on the HBEFA4 model, supporting gasoline, diesel, and electric vehicles. Implements driving mode detection and CO₂-equivalent calculations.
-
-## traci_manager
-Manages SUMO TraCI connections with automatic retry mechanisms and error handling.
-
-
-
+<sub>Always interested in collaboration on traffic × AI, multi-agent systems, and large-scale mobility simulation.</sub>
